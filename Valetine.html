@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Will You Be My Valentine? 💖</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,sans-serif;}
+
+    body{
+      height:100vh;
+      background: linear-gradient(135deg,#ff9a9e,#fad0c4,#ffd1ff);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      overflow:hidden;
+      position:relative;
+    }
+
+    /* Animated glowing name */
+    .bg-name{
+      position:fixed;
+      inset:0;
+      display:flex;
+      justify-content:center;
+      align-items:first baseline;
+      font-size: clamp(64px, 12vw, 140px);
+      font-weight:900;
+      color:rgba(255,255,255,0.45);
+      pointer-events:none;
+      user-select:none;
+      z-index:1;
+      animation: glow 3s ease-in-out infinite alternate;
+      text-shadow:
+        0 0 10px rgba(255,255,255,.6),
+        0 0 30px rgba(255,105,180,.6),
+        0 0 60px rgba(255,20,147,.6);
+    }
+
+    @keyframes glow{
+      from{
+        text-shadow:
+          0 0 5px rgba(255,255,255,.4),
+          0 0 20px rgba(255,105,180,.4),
+          0 0 40px rgba(255,20,147,.4);
+      }
+      to{
+        text-shadow:
+          0 0 20px rgba(255,255,255,.9),
+          0 0 50px rgba(255,105,180,.9),
+          0 0 90px rgba(255,20,147,.9);
+      }
+    }
+
+    .card{
+      background:rgba(255,255,255,0.92);
+      padding:24px 24px 32px;
+      border-radius:20px;
+      width:min(92vw, 360px);
+      text-align:center;
+      box-shadow:0 20px 40px rgba(255,77,109,.35);
+      position:relative;
+      z-index:2;
+      display:none;
+    }
+    .card.active{display:block;}
+
+    h1{color:#ff4d6d;margin-bottom:10px;}
+    p{color:#555;margin-bottom:12px;}
+
+    .img-slot{
+      width:180px;
+      height:180px;
+      margin:10px auto 16px;
+      border-radius:16px;
+      overflow:hidden;
+      border:4px solid #ff4d6d;
+      box-shadow:0 8px 20px rgba(255,77,109,.4);
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .img-slot img,
+    .img-slot video{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .buttons{
+      display:flex;
+      justify-content:center;
+      gap:16px;
+      margin-top:8px;
+      min-height:44px;
+    }
+
+    button{
+      padding:10px 20px;
+      border-radius:12px;
+      border:none;
+      cursor:pointer;
+      font-size:16px;
+    }
+    .yes{background:#ff4d6d;color:#fff;}
+    .no{background:#f2f0f0;color:#333;}
+
+    #no2{position:relative;}
+
+    .heart{
+      position:absolute;
+      bottom:-40px;
+      font-size:40px;
+      animation:float 6s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes float{
+      from{transform:translateY(0);opacity:1;}
+      to{transform:translateY(-110vh);opacity:0;}
+    }
+
+    .sparkle{
+      position:absolute;
+      width:4px;height:10px;
+      border-radius:50%;
+      background:white;
+      box-shadow:0 0 40px white;
+      bottom:0;
+      animation:spark 4s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes spark{
+      from{transform:translateY(0);opacity:0;}
+      50%{opacity:1;}
+      to{transform:translateY(-60vh);opacity:0;}
+    }
+
+    /* Firework particles */
+    .firework{
+      position:fixed;
+      width:15px;
+      height:15px;
+      background:radial-gradient(circle, #fff, #ff4d6d, transparent);
+      border-radius:50%;
+      pointer-events:none;
+      animation: explode 3s ease-out forwards;
+    }
+    @keyframes explode{
+      from{transform:scale(1);opacity:1;}
+      to{transform:translate(var(--x), var(--y)) scale(0);opacity:0;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CHANGE NAME HERE -->
+  <div class="bg-name">НАСТЯ</div>
+
+  <audio id="bgMusic" src="music.mp3" loop></audio>
+
+  <!-- PAGE 1 -->
+  <div class="card active" id="page1">
+    <h1>Будешь моей Валентинкой? 💖</h1>
+    <div class="img-slot">
+      <img src="her.gif" alt="Her GIF">
+    </div>
+    <p>Ты делаешь мои дни ярче 🌸</p>
+    <div class="buttons">
+      <button class="yes" id="yes1">Да 💘</button>
+      <button class="no" id="no1">Нет 😢</button>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="card" id="page2">
+    <h1>Вы уверены? 🥺</h1>
+    <div class="img-slot">
+      <video src="second.mp4" autoplay loop muted playsinline></video>
+    </div>
+    <p>Попробуйте снова нажать «Нет» 😏</p>
+    <div class="buttons">
+      <button class="yes" id="yes2">Хорошо, да 💘</button>
+      <button class="no" id="no2">Нет 😢</button>
+    </div>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="card" id="page3">
+    <h1>Ура! 💖</h1>
+    <div class="img-slot">
+      <video src="valentine.mp4" autoplay loop muted playsinline></video>
+    </div>
+    <p>Ты просто сделала мою жизнь лучше 😍</p>
+  </div>
+
+  <script>
+    const music = document.getElementById("bgMusic");
+    document.body.addEventListener("click",()=>{
+      if(music.paused) music.play().catch(()=>{});
+    },{once:true});
+
+    const page1=document.getElementById("page1");
+    const page2=document.getElementById("page2");
+    const page3=document.getElementById("page3");
+
+    document.getElementById("no1").onclick=()=>{
+      page1.classList.remove("active");
+      page2.classList.add("active");
+    };
+
+    function fireworks(){
+      for(let i=0;i<40;i++){
+        const f=document.createElement("div");
+        f.className="firework";
+        f.style.left = Math.random()*100+"vw";
+        f.style.top = Math.random()*100+"vh";
+        f.style.setProperty("--x",(Math.random()*300-150)+"px");
+        f.style.setProperty("--y",(Math.random()*300-150)+"px");
+        document.body.appendChild(f);
+        setTimeout(()=>f.remove(),1200);
+      }
+    }
+
+    function accept(){
+      fireworks();
+      page1.classList.remove("active");
+      page2.classList.remove("active");
+      page3.classList.add("active");
+    }
+    document.getElementById("yes1").onclick=accept;
+    document.getElementById("yes2").onclick=accept;
+
+    const no2=document.getElementById("no2");
+    function moveNo(){
+      const bw=no2.offsetWidth;
+      const bh=no2.offsetHeight;
+      const maxX=window.innerWidth-bw-20;
+      const maxY=window.innerHeight-bh-20;
+      no2.style.position="fixed";
+      no2.style.left=Math.random()*maxX+"px";
+      no2.style.top=Math.random()*maxY+"px";
+    }
+    ["mouseenter","mousemove","mousedown","touchstart"].forEach(e=>{
+      no2.addEventListener(e,moveNo);
+    });
+
+    setInterval(()=>{
+      const h=document.createElement("div");
+      h.className="heart";
+      h.innerText="💖";
+      h.style.left=Math.random()*100+"vw";
+      h.style.animationDuration=(Math.random()*3+4)+"s";
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),7000);
+    },400);
+
+    setInterval(()=>{
+      const s=document.createElement("div");
+      s.className="sparkle";
+      s.style.left=Math.random()*100+"vw";
+      document.body.appendChild(s);
+      setTimeout(()=>s.remove(),1);
+    },20);
+  </script>
+</body>
+</html>
